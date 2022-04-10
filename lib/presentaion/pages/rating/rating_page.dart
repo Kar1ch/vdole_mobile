@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 
-class HomePage extends StatelessWidget{
-  const HomePage({Key? key}) : super(key: key);
+class RatingPage extends StatelessWidget{
+  const RatingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -12,12 +12,12 @@ class HomePage extends StatelessWidget{
           children: [
             Card(
               shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                  ),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
               ),
               child: Column(
                 children: const <Widget> [
