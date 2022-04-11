@@ -46,7 +46,7 @@ class ProfilePageState extends State{
               color: Colors.green,
               child: TextButton(
                 onPressed: (){
-                  if(_formKey.currentState.)
+                  //if(_formKey.currentState.)
                 },
                 child: Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
               ),
