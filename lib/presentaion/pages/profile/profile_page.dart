@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
+import 'package:email_validator/email_validator.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ProfilePageState();
@@ -10,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State{
 
   final _formKey = GlobalKey<FormState>();
-
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -22,7 +24,10 @@ class ProfilePageState extends State{
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
               child: TextFormField(
-                key: _formKey,
+                controller: emailController,
+                validator: (value){
+                  if (!EmailValidator.validate(emailController.text)) return "Пожалуйста введите Email";
+                },
                 style: const TextStyle(color: DarkThemeColors.deactive),
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
@@ -35,20 +40,26 @@ class ProfilePageState extends State{
                         color: DarkThemeColors.deactive,
                       )
                   ),
-                  hintText: "Введите Email",
+                  //hintText: "Введите Email",
                   hintStyle: TextStyle(color: DarkThemeColors.deactive),
                   //fillColor: DarkThemeColors.tinkbg01,
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               color: Colors.green,
               child: TextButton(
                 onPressed: (){
-                  //if(_formKey.currentState.)
+                  if(!EmailValidator.validate(emailController.text)) {
+                    //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Попробуйте еще раз"),));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Письмо с кодом подтверждения отправлено на ваш Email"), backgroundColor: Colors.green,));
+                  }
                 },
-                child: Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
+                child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
               ),
             )
           ]
