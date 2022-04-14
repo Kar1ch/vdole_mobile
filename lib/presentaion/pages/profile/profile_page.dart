@@ -54,7 +54,7 @@ class ProfilePageState extends State{
                   padding: const EdgeInsets.symmetric(vertical: 20),
                     primary: DarkThemeColors.primary00,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                 ),
                 onPressed: () async {

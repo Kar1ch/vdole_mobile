@@ -7,17 +7,15 @@ class PortfolioPage extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
+      body: Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: ListView(
+          physics: const ClampingScrollPhysics(),
+          children: <Widget>[
             Card(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
+              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 children: const <Widget> [
