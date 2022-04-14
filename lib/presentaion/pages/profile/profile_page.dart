@@ -31,7 +31,7 @@ class ProfilePageState extends State{
                 validator: (value){
                   if (!EmailValidator.validate(emailController.text)) return "Пожалуйста введите Email";
                 },
-                style: const TextStyle(color: DarkThemeColors.deactive),
+                style: const TextStyle(color: DarkThemeColors.white),
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
@@ -43,9 +43,9 @@ class ProfilePageState extends State{
                         color: DarkThemeColors.deactive,
                       )
                   ),
-                  //hintText: "Введите Email",
+                  hintText: "Введите Email",
                   hintStyle: TextStyle(color: DarkThemeColors.deactive),
-                  //fillColor: DarkThemeColors.tinkbg01,
+                  //fillColor: DarkThemeColors.white,
                 ),
               ),
             ),
@@ -63,7 +63,7 @@ class ProfilePageState extends State{
                     try {
                       var response = await http.post(
                           Uri.parse('http://vdole.co/serv.php'),
-                          body: {'mob': '5', 'comm': '25', 'logEmail': emailController.text});
+                          body: {'mob': '4', 'comm': '25', 'logEmail': emailController.text});
                       print(response.body);
                   } finally {
                     }

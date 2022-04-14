@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/presentaion/pages/rating/rating_page.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/profile_page.dart';
+import 'package:vdole_mobile/presentaion/pages/portfolio/portfolio.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState(1);//Единица указана до тех пор пока не прекратится отладка профиля
+  _HomePageState createState() => _HomePageState(2);//Единица указана до тех пор пока не прекратится отладка профиля
 
 }
 
 class _HomePageState extends State<HomePage>{
   int _activePage = 0;
-  final List<Widget> _tabItems = [RatingPage(), ProfilePage()];
+  final List<Widget> _tabItems = [RatingPage(), PortfolioPage(), ProfilePage()];
 
   _HomePageState(int SelectedPage){
     _activePage = SelectedPage;
@@ -36,6 +37,11 @@ class _HomePageState extends State<HomePage>{
             activeIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
             label: 'Главная',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: Icon(Icons.shopping_bag),
+            icon: Icon(Icons.shopping_bag_outlined),
+            label: 'Портфолио',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.person),
