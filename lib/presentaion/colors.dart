@@ -5,8 +5,9 @@ import 'package:flutter/painting.dart';
 abstract class DarkThemeColors {
   // Primary actions, emphasizing navigation elements,
   // backgrounds, text, etc.
-  static const primary00 = Colors.green;
-  static const primary01 = Color(0xFF019D64);
+  static const primary00 = Color(0xFF099990);
+  static const primary01 = Colors.green;
+  static const primary02 = Color(0xFF019D64);
   static const secondary = Color(0xFF027093);
 
 

@@ -24,7 +24,7 @@ class NewMemberPinState extends State{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Авторизация', textAlign: TextAlign.center,),
+        title: const Text('Регистрация', textAlign: TextAlign.center, style: TextStyle(color: DarkThemeColors.white),),
         centerTitle: true,
         backgroundColor: DarkThemeColors.primary00,
       ),
@@ -108,7 +108,7 @@ class NewMemberPinState extends State{
                       } finally {}
                     }
                   },
-                  child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
+                  child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),
             ]

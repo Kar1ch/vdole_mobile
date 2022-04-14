@@ -79,7 +79,7 @@ class ProfilePageState extends State{
                     } finally {}
                   }
                 },
-                child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
+                child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
               ),
             )
           ]
