@@ -46,8 +46,15 @@ class ProfilePageState extends State{
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              color: Colors.green,
-              child: TextButton(
+              //color: Colors.green,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                    primary: DarkThemeColors.primary00,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                ),
                 onPressed: () async {
                   if(!EmailValidator.validate(emailController.text)) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
@@ -65,8 +72,7 @@ class ProfilePageState extends State{
                       else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
                       }
-                  } finally {
-                    }
+                    } finally {}
                   }
                 },
                 child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
