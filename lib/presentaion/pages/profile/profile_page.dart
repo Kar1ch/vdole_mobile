@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:email_validator/email_validator.dart';
@@ -14,7 +13,6 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageState extends State{
 
-  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context){
@@ -28,9 +26,6 @@ class ProfilePageState extends State{
               margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
               child: TextFormField(
                 controller: emailController,
-                validator: (value){
-                  if (!EmailValidator.validate(emailController.text)) return "Пожалуйста введите Email";
-                },
                 style: const TextStyle(color: DarkThemeColors.white),
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
@@ -55,16 +50,21 @@ class ProfilePageState extends State{
               child: TextButton(
                 onPressed: () async {
                   if(!EmailValidator.validate(emailController.text)) {
-                    //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Попробуйте еще раз"),));
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
                   }
                   else{
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Письмо с кодом подтверждения отправлено на ваш Email"), backgroundColor: Colors.green,));
                     try {
                       var response = await http.post(
                           Uri.parse('http://vdole.co/serv.php'),
                           body: {'mob': '4', 'comm': '25', 'logEmail': emailController.text});
-                      print(response.body);
+                      var responseXml = xml.XmlElement.parseString(response.body)![0];
+                      var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
+                      if (responseXml.toString().contains('<error>')){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.green,));
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                      }
                   } finally {
                     }
                   }
