@@ -1,8 +1,10 @@
+import 'package:vdole_mobile/presentaion/pages/profile/memberpin.dart';
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
+import 'package:vdole_mobile/presentaion/pages/profile/newmemberpin.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -67,10 +69,12 @@ class ProfilePageState extends State{
                       var responseXml = xml.XmlElement.parseString(response.body)![0];
                       var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
                       if (responseXml.toString().contains('<error>')){
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.green,));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(emailController.text)));
                       }
                       else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MemberPin(emailController.text)));
                       }
                     } finally {}
                   }
