@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:url_launcher/url_launcher.dart';
 
+import 'newmemberpin.dart';
+
 class NewMemberGen extends StatefulWidget{
   var email = '';
   NewMemberGen(var Email, {Key? key}) : super(key: key){
@@ -72,15 +74,12 @@ class NewMemberGenState extends State{
                         'comm': '25',
                         'newLogEmail':email,
                       });
-                      // Парсинг ответа из xml в строку с тэгами
-                      var responseXml = xml.XmlElement.parseString(
-                          response.body)![0];
                       // Парсинг ответа из xml в строку без тегов
-                      var responseXmlText = xml.XmlText.parseString(
-                          response.body)![0].toString();
+                      var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(responseXmlText),
                         backgroundColor: Colors.green,));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(email)));
                     } finally {}
                   },
                   child: const Text("Подписать", style: TextStyle(color: DarkThemeColors.white),),

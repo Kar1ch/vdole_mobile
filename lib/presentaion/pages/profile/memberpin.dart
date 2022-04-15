@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 import 'package:xml_parser/xml_parser.dart' as xml;
 
 class MemberPin extends StatefulWidget{
@@ -76,13 +77,12 @@ class MemberPinState extends State{
                             body: {'mob': '4', 'comm': '1', 'email': email, 'code':pinController.text});
                         // Парсинг ответа из xml в строку с тэгами
                         var responseXml = xml.XmlElement.parseString(response.body)![0];
-                        // Парсинг ответа из xml в строку без тегов
-                        var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
                         if (responseXml.toString() == '0'){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный E-mail или пароль!'), backgroundColor: Colors.redAccent,));
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный PIN код!'), backgroundColor: Colors.redAccent,));
                         }
                         else{
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                         Navigator.popUntil(context, (route) => false);
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
                         }
                       } finally {}
                     },

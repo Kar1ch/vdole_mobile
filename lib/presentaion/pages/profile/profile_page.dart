@@ -1,11 +1,11 @@
 import 'package:vdole_mobile/presentaion/pages/loading.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/memberpin.dart';
+import 'package:vdole_mobile/presentaion/pages/profile/newmembergen.dart';
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
-import 'package:vdole_mobile/presentaion/pages/profile/newmemberpin.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -75,13 +75,27 @@ class ProfilePageState extends State{
                       if (responseXml.toString().contains('<error>')){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
                         Navigator.pop(context);
-                        AlertDialog(
-                          content: Text(responseXmlText),
-                          actions: [
-                            TextButton(onPressed: onPressed, child: child)
-                          ],
-                        );
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(emailController.text)));
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                content: const Text('Создать для вас новый профиль инвестора?'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Нет')
+                                  ),
+                                  TextButton(
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberGen(emailController.text)));
+                                      },
+                                      child: const Text('Да')
+                                  )
+                                ],
+                              );
+                            });
                       }
                       else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
