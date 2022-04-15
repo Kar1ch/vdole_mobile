@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:email_validator/email_validator.dart';
@@ -16,6 +17,7 @@ class NewMemberPin extends StatefulWidget{
 class NewMemberPinState extends State{
   TextEditingController emailController = TextEditingController();
   TextEditingController pinController = TextEditingController();
+  var isagreed = false;
   NewMemberPinState(var Email){
     emailController.text = Email;
   }
@@ -76,6 +78,35 @@ class NewMemberPinState extends State{
                     //fillColor: DarkThemeColors.white,
                   ),
                 ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: isagreed,
+                      onChanged: (var value){
+                        setState(() {
+                          isagreed = value!;
+                        });
+                      },
+                    ),
+                    RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                                text: 'Я согласен с ',
+                            ),
+                            TextSpan(
+                              text: 'пользовательским соглашением',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {}
+                            )
+                          ]
+                        )
+                    ),
+                  ],
+                )
               ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),

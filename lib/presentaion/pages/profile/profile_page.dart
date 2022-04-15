@@ -76,7 +76,9 @@ class ProfilePageState extends State{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MemberPin(emailController.text)));
                       }
-                    } finally {}
+                    } finally {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Не отправлен запрос')));
+                    }
                   }
                 },
                 child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.tinkbg00),),
