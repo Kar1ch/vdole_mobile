@@ -57,27 +57,7 @@ class NewMemberPinState extends State{
                   ),
                 ),
               ),
-              // Пользовательское соглашение
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: Row(
-                  children: [
-                    RichText(
-                        text: TextSpan(
-                          style: const TextStyle(color: DarkThemeColors.deactive),
-                          children: [
-                            TextSpan(
-                              text: 'Пользовательское соглашение',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () { launch('https://drive.google.com'); }
-                            )
-                          ]
-                        )
-                    ),
-                  ],
-                )
-              ),
-              // Кнопка подписать
+              // Кнопка отправить
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: ElevatedButton(
@@ -116,7 +96,7 @@ class NewMemberPinState extends State{
                         }
                       } finally {}
                     },
-                  child: const Text("Подписать", style: TextStyle(color: DarkThemeColors.white),),
+                  child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),
             ]

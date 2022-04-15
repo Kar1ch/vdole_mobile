@@ -75,6 +75,12 @@ class ProfilePageState extends State{
                       if (responseXml.toString().contains('<error>')){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
                         Navigator.pop(context);
+                        AlertDialog(
+                          content: Text(responseXmlText),
+                          actions: [
+                            TextButton(onPressed: onPressed, child: child)
+                          ],
+                        );
                         Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(emailController.text)));
                       }
                       else{
