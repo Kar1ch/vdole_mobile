@@ -8,7 +8,7 @@ class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState(2);//Единица указана до тех пор пока не прекратится отладка профиля
+  _HomePageState createState() => _HomePageState(0);//Единица указана до тех пор пока не прекратится отладка профиля
 
 }
 
