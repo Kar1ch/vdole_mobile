@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:url_launcher/url_launcher.dart';
@@ -18,7 +17,6 @@ class NewMemberPin extends StatefulWidget{
 class NewMemberPinState extends State{
   var email = '';
   TextEditingController pinController = TextEditingController();
-  var isagreed = false;
   NewMemberPinState(var Email){
     email = Email;
   }
@@ -36,6 +34,7 @@ class NewMemberPinState extends State{
         child: ListView(
             physics: const ClampingScrollPhysics(),
             children: <Widget>[
+              // Поле ввода PIN кода
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: TextFormField(
@@ -58,25 +57,19 @@ class NewMemberPinState extends State{
                   ),
                 ),
               ),
+              // Пользовательское соглашение
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: Row(
                   children: [
-                    Checkbox(
-                      value: isagreed,
-                      onChanged: (var value){
-                        setState(() {
-                          isagreed = value!;
-                        });
-                      },
-                    ),
                     RichText(
                         text: TextSpan(
+                          style: const TextStyle(color: DarkThemeColors.deactive),
                           children: [
                             TextSpan(
                               text: 'Пользовательское соглашение',
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () { launch('https://drive.google.com/file/d/0B2nuss8lF_0iX29LWF8wLW5zLXc/view?usp=sharing'); }
+                                ..onTap = () { launch('https://drive.google.com'); }
                             )
                           ]
                         )
@@ -84,6 +77,7 @@ class NewMemberPinState extends State{
                   ],
                 )
               ),
+              // Кнопка подписать
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: ElevatedButton(
@@ -95,11 +89,8 @@ class NewMemberPinState extends State{
                     ),
                   ),
                   onPressed: () async {
-                    if (isagreed) {
-                      try {
-                        var response = await http.post(
-                            Uri.parse('http://vdole.co/serv.php'),
-                            body: {
+                    try {
+                      var response = await http.post(Uri.parse('http://vdole.co/serv.php'), body: {
                               'mob': '4',
                               'comm': '11',
                               'status_r': '1',
@@ -107,15 +98,16 @@ class NewMemberPinState extends State{
                               'code_r': pinController.text,
                               'agent': '1'
                             });
+                        // Парсинг ответа из xml в строку с тэгами
                         var responseXml = xml.XmlElement.parseString(
                             response.body)![0];
+                        // Парсинг ответа из xml в строку без тегов
                         var responseXmlText = xml.XmlText.parseString(
                             response.body)![0].toString();
                         if (responseXml.toString().contains('0')) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text(
-                                  'Указан неверный E-mail или пароль!'),
-                                backgroundColor: Colors.redAccent,));
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Указан неверный PIN код!'),
+                            backgroundColor: Colors.redAccent,));
                         }
                         else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -123,11 +115,7 @@ class NewMemberPinState extends State{
                             backgroundColor: Colors.green,));
                         }
                       } finally {}
-                    }
-                    else{
-
-                    }
-                  },
+                    },
                   child: const Text("Подписать", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),

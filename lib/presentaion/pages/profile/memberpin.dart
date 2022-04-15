@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml_parser/xml_parser.dart' as xml;
 
@@ -15,11 +14,11 @@ class MemberPin extends StatefulWidget{
 }
 
 class MemberPinState extends State{
-  TextEditingController emailController = TextEditingController();
+  var email = '';
   TextEditingController pinController = TextEditingController();
 
-  MemberPinState(String email){
-    emailController.text = email;
+  MemberPinState(String Email){
+    email = Email;
   }
 
   @override
@@ -35,28 +34,7 @@ class MemberPinState extends State{
         child: ListView(
             physics: const ClampingScrollPhysics(),
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: TextFormField(
-                  controller: emailController,
-                  style: const TextStyle(color: DarkThemeColors.white),
-                  decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: DarkThemeColors.deactive,
-                        )
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: DarkThemeColors.deactive,
-                        )
-                    ),
-                    hintText: "Введите Email",
-                    hintStyle: TextStyle(color: DarkThemeColors.deactive),
-                    //fillColor: DarkThemeColors.white,
-                  ),
-                ),
-              ),
+              // Поле ввода PIN кода
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: TextFormField(
@@ -79,6 +57,7 @@ class MemberPinState extends State{
                   ),
                 ),
               ),
+              // Кнопка отправить
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 //color: Colors.green,
@@ -91,15 +70,13 @@ class MemberPinState extends State{
                     ),
                   ),
                   onPressed: () async {
-                    if(!EmailValidator.validate(emailController.text)) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
-                    }
-                    else{
                       try {
                         var response = await http.post(
                             Uri.parse('http://vdole.co/serv.php'),
-                            body: {'mob': '4', 'comm': '1', 'email': emailController.text, 'code':pinController.text});
+                            body: {'mob': '4', 'comm': '1', 'email': email, 'code':pinController.text});
+                        // Парсинг ответа из xml в строку с тэгами
                         var responseXml = xml.XmlElement.parseString(response.body)![0];
+                        // Парсинг ответа из xml в строку без тегов
                         var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
                         if (responseXml.toString() == '0'){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный E-mail или пароль!'), backgroundColor: Colors.redAccent,));
@@ -108,8 +85,7 @@ class MemberPinState extends State{
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
                         }
                       } finally {}
-                    }
-                  },
+                    },
                   child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),

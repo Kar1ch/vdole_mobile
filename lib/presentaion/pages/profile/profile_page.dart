@@ -25,6 +25,7 @@ class ProfilePageState extends State{
         child: ListView(
           physics: const ClampingScrollPhysics(),
           children: <Widget>[
+            // Поле ввода Email
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
               child: TextFormField(
@@ -47,6 +48,7 @@ class ProfilePageState extends State{
                 ),
               ),
             ),
+            // Кнопка отправить
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               //color: Colors.green,
