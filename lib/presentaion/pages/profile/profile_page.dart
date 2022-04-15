@@ -1,3 +1,4 @@
+import 'package:vdole_mobile/presentaion/pages/loading.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/memberpin.dart';
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'package:flutter/material.dart';
@@ -63,21 +64,23 @@ class ProfilePageState extends State{
                   }
                   else{
                     try {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingPage()));
                       var response = await http.post(
                           Uri.parse('http://vdole.co/serv.php'),
                           body: {'mob': '4', 'comm': '25', 'logEmail': emailController.text});
-                      var responseXml = xml.XmlElement.parseString(response.body)![0];
+                      var responseXml = xml.XmlElement.parseString(response.body);
                       var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
                       if (responseXml.toString().contains('<error>')){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
+                        Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(emailController.text)));
                       }
                       else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                        Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MemberPin(emailController.text)));
                       }
                     } finally {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Не отправлен запрос')));
                     }
                   }
                 },

@@ -98,10 +98,9 @@ class MemberPinState extends State{
                       try {
                         var response = await http.post(
                             Uri.parse('http://vdole.co/serv.php'),
-                            body: {'mob': '4', 'comm': '1', 'logEmail': emailController.text, 'code':pinController.text});
+                            body: {'mob': '4', 'comm': '1', 'email': emailController.text, 'code':pinController.text});
                         var responseXml = xml.XmlElement.parseString(response.body)![0];
                         var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
-                        print("_____________" + responseXml.toString() + " "+pinController.text);
                         if (responseXml.toString() == '0'){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный E-mail или пароль!'), backgroundColor: Colors.redAccent,));
                         }

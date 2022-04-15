@@ -4,6 +4,7 @@ import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml_parser/xml_parser.dart' as xml;
+import 'package:url_launcher/url_launcher.dart';
 
 class NewMemberPin extends StatefulWidget{
   var email = '';
@@ -15,11 +16,11 @@ class NewMemberPin extends StatefulWidget{
 }
 
 class NewMemberPinState extends State{
-  TextEditingController emailController = TextEditingController();
+  var email = '';
   TextEditingController pinController = TextEditingController();
   var isagreed = false;
   NewMemberPinState(var Email){
-    emailController.text = Email;
+    email = Email;
   }
 
   @override
@@ -35,28 +36,6 @@ class NewMemberPinState extends State{
         child: ListView(
             physics: const ClampingScrollPhysics(),
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: TextFormField(
-                  controller: emailController,
-                  style: const TextStyle(color: DarkThemeColors.white),
-                  decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: DarkThemeColors.deactive,
-                        )
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: DarkThemeColors.deactive,
-                        )
-                    ),
-                    hintText: "Введите Email",
-                    hintStyle: TextStyle(color: DarkThemeColors.deactive),
-                    //fillColor: DarkThemeColors.white,
-                  ),
-                ),
-              ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: TextFormField(
@@ -94,13 +73,10 @@ class NewMemberPinState extends State{
                     RichText(
                         text: TextSpan(
                           children: [
-                            const TextSpan(
-                                text: 'Я согласен с ',
-                            ),
                             TextSpan(
-                              text: 'пользовательским соглашением',
+                              text: 'Пользовательское соглашение',
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () {}
+                                ..onTap = () { launch('https://drive.google.com/file/d/0B2nuss8lF_0iX29LWF8wLW5zLXc/view?usp=sharing'); }
                             )
                           ]
                         )
@@ -110,7 +86,6 @@ class NewMemberPinState extends State{
               ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                //color: Colors.green,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -120,26 +95,40 @@ class NewMemberPinState extends State{
                     ),
                   ),
                   onPressed: () async {
-                    if(!EmailValidator.validate(emailController.text)) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
-                    }
-                    else{
+                    if (isagreed) {
                       try {
                         var response = await http.post(
                             Uri.parse('http://vdole.co/serv.php'),
-                            body: {'mob': '4', 'comm': '1', 'logEmail': emailController.text, 'code':pinController.text});
-                        var responseXml = xml.XmlElement.parseString(response.body)![0];
-                        var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
-                        if (responseXml.toString().contains('0')){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный E-mail или пароль!'), backgroundColor: Colors.redAccent,));
+                            body: {
+                              'mob': '4',
+                              'comm': '11',
+                              'status_r': '1',
+                              'mail_r': email,
+                              'code_r': pinController.text,
+                              'agent': '1'
+                            });
+                        var responseXml = xml.XmlElement.parseString(
+                            response.body)![0];
+                        var responseXmlText = xml.XmlText.parseString(
+                            response.body)![0].toString();
+                        if (responseXml.toString().contains('0')) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text(
+                                  'Указан неверный E-mail или пароль!'),
+                                backgroundColor: Colors.redAccent,));
                         }
-                        else{
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(responseXmlText),
+                            backgroundColor: Colors.green,));
                         }
                       } finally {}
                     }
+                    else{
+
+                    }
                   },
-                  child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
+                  child: const Text("Подписать", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),
             ]
