@@ -1,11 +1,10 @@
 import 'package:vdole_mobile/presentaion/pages/loading.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/memberpin.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/newmembergen.dart';
-import 'package:xml_parser/xml_parser.dart' as xml;
-import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:http/http.dart' as http;
+import 'package:vdole_mobile/requests/requests.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -67,12 +66,10 @@ class ProfilePageState extends State{
                   else{
                     try {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingPage()));
-                      var response = await http.post(
-                          Uri.parse('http://vdole.co/serv.php'),
-                          body: {'mob': '4', 'comm': '25', 'logEmail': emailController.text});
-                      var responseXml = xml.XmlElement.parseString(response.body);
-                      var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
-                      if (responseXml.toString().contains('<error>')){
+                      var response = await preLogRequest(emailController.text);
+                      var responseXml = response[0].toString();
+                      var responseXmlText = response[1].toString();
+                      if (responseXml.contains('<error>')){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
                         Navigator.pop(context);
                         showDialog(

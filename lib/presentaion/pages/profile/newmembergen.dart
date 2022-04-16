@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
-import 'package:http/http.dart' as http;
-import 'package:xml_parser/xml_parser.dart' as xml;
+import 'package:vdole_mobile/requests/requests.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'newmemberpin.dart';
@@ -69,13 +68,9 @@ class NewMemberGenState extends State{
                   ),
                   onPressed: () async {
                     try {
-                      var response = await http.post(Uri.parse('http://vdole.co/serv.php'), body: {
-                        'mob': '4',
-                        'comm': '25',
-                        'newLogEmail':email,
-                      });
+                      var response = await newMemberGen(email);
                       // Парсинг ответа из xml в строку без тегов
-                      var responseXmlText = xml.XmlText.parseString(response.body)![0].toString();
+                      var responseXmlText = response[1].toString();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(responseXmlText),
                         backgroundColor: Colors.green,));

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
-import 'package:http/http.dart' as http;
 import 'package:vdole_mobile/presentaion/pages/home_page.dart';
-import 'package:xml_parser/xml_parser.dart' as xml;
-
+import 'package:vdole_mobile/requests/requests.dart';
 class MemberPin extends StatefulWidget{
   var email = '';
   MemberPin(var Email){
@@ -72,12 +70,9 @@ class MemberPinState extends State{
                   ),
                   onPressed: () async {
                       try {
-                        var response = await http.post(
-                            Uri.parse('http://vdole.co/serv.php'),
-                            body: {'mob': '4', 'comm': '1', 'email': email, 'code':pinController.text});
-                        // Парсинг ответа из xml в строку с тэгами
-                        var responseXml = xml.XmlElement.parseString(response.body)![0];
-                        if (responseXml.toString() == '0'){
+                        var response = await memberPin(email, pinController.text);
+                        var responseXml = response[0].toString();
+                        if (responseXml == '0'){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный PIN код!'), backgroundColor: Colors.redAccent,));
                         }
                         else{
