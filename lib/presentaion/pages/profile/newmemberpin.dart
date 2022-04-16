@@ -78,7 +78,7 @@ class NewMemberPinState extends State{
                         else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(responseXmlText),
-                            backgroundColor: Colors.green,));
+                            backgroundColor: DarkThemeColors.primary00,));
                         }
                       } finally {}
                     },

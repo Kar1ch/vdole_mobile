@@ -21,8 +21,8 @@ class RatingPage extends StatelessWidget{
                 children: const <Widget> [
                   ListTile(
                     leading: Icon(Icons.school_rounded, color: DarkThemeColors.primary00, size: 30,),
-                    title: Text('Лина лох', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: DarkThemeColors.white), textAlign: TextAlign.left),
-                    subtitle: Text('Прохоров М.Н.', style: TextStyle(fontSize: 16, color: DarkThemeColors.white),),
+                    title: Text('Главная страница', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: DarkThemeColors.white), textAlign: TextAlign.left),
+                    subtitle: Text('Подпись для заголовка ', style: TextStyle(fontSize: 16, color: DarkThemeColors.white),),
                   ),
                 ],
               ),

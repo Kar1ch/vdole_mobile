@@ -78,6 +78,7 @@ class MemberPinState extends State{
                         else{
                          Navigator.popUntil(context, (route) => false);
                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
                         }
                       } finally {}
                     },

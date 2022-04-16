@@ -61,7 +61,7 @@ class ProfilePageState extends State{
                 ),
                 onPressed: () async {
                   if(!EmailValidator.validate(emailController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Попробуйте еще раз"), backgroundColor: Colors.redAccent,));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Почта введена некорректно"), backgroundColor: Colors.redAccent,));
                   }
                   else{
                     try {
@@ -70,37 +70,38 @@ class ProfilePageState extends State{
                       var responseXml = response[0].toString();
                       var responseXmlText = response[1].toString();
                       if (responseXml.contains('<error>')){
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
+                        //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText.replaceAll('(#noMail)', '')), backgroundColor: Colors.redAccent,));
                         Navigator.pop(context);
                         showDialog(
                             context: context,
                             builder: (BuildContext context){
                               return AlertDialog(
-                                content: const Text('Создать для вас новый профиль инвестора?'),
+                                backgroundColor: DarkThemeColors.tinkbg00,
+                                content: Text(responseXmlText.replaceAll('(#noMail)', 'Создать для вас новый профиль инвестора?'), style: const TextStyle(color: DarkThemeColors.white),),
                                 actions: [
-                                  TextButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Нет')
-                                  ),
                                   TextButton(
                                       onPressed: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberGen(emailController.text)));
                                       },
-                                      child: const Text('Да')
-                                  )
+                                      child: Text('Да', style: TextStyle(color: DarkThemeColors.primary00),)
+                                  ),
+                                  TextButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Нет', style: TextStyle(color: DarkThemeColors.deactive),)
+                                  ),
                                 ],
                               );
-                            });
+                            }
+                            );
                       }
                       else{
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: Colors.green,));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseXmlText), backgroundColor: DarkThemeColors.primary00,));
                         Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MemberPin(emailController.text)));
                       }
-                    } finally {
-                    }
+                    } finally {}
                   }
                 },
                 child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),

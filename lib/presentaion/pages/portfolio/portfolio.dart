@@ -22,7 +22,7 @@ class PortfolioPage extends StatelessWidget{
                   ListTile(
                     leading: Icon(Icons.airline_seat_recline_extra_outlined, color: DarkThemeColors.primary00, size: 30,),
                     title: Text('515 руб', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: DarkThemeColors.white), textAlign: TextAlign.left),
-                    subtitle: Text('ПХАХПАХПА сидушка', style: TextStyle(fontSize: 16, color: DarkThemeColors.white),),
+                    subtitle: Text('Подпись', style: TextStyle(fontSize: 16, color: DarkThemeColors.white),),
                   ),
                 ],
               ),
