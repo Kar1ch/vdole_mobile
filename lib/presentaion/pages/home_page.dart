@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
   int _activePage = 0;
-  CookieStorage cookiestorage = CookieStorage();
   final List<Widget> _tabItems = [RatingPage(), PortfolioPage(), ProfilePage()];
 
   _HomePageState(int SelectedPage){
