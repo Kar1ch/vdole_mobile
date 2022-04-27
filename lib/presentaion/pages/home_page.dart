@@ -3,6 +3,7 @@ import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/presentaion/pages/rating/rating_page.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/profile_page.dart';
 import 'package:vdole_mobile/presentaion/pages/portfolio/portfolio.dart';
+import 'package:vdole_mobile/storage.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
   int _activePage = 0;
+  CookieStorage cookiestorage = CookieStorage();
   final List<Widget> _tabItems = [RatingPage(), PortfolioPage(), ProfilePage()];
 
   _HomePageState(int SelectedPage){

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
+import 'package:vdole_mobile/storage.dart';
+
 class MemberPin extends StatefulWidget{
-  var email = '';
-  MemberPin(var Email){
+
+  String email = '';
+  MemberPin(String Email, {Key? key}) : super(key: key){
     email = Email;
   }
 
@@ -76,11 +79,15 @@ class MemberPinState extends State{
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный PIN код!'), backgroundColor: Colors.redAccent,));
                         }
                         else{
-                         Navigator.popUntil(context, (route) => false);
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
+                          /* Сохраняем данные для автолога*/
+                          var cookie = responseXml.substring(responseXml.indexOf('"') + 1, responseXml.indexOf('"', responseXml.indexOf('"') + 1));
+                          cookieStorage.setcookie(cookie);
+                          Navigator.popUntil(context, (route) => false);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
                         }
-                      } finally {}
+                      }
+                      finally {}
                     },
                   child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
                 ),

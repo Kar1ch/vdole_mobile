@@ -9,6 +9,7 @@ import 'package:vdole_mobile/requests/requests.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+
   @override
   State<StatefulWidget> createState() => ProfilePageState();
 }
@@ -65,7 +66,7 @@ class ProfilePageState extends State{
                   }
                   else{
                     try {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoadingPage()));
                       var response = await preLogRequest(emailController.text);
                       var responseXml = response[0].toString();
                       var responseXmlText = response[1].toString();
@@ -83,13 +84,13 @@ class ProfilePageState extends State{
                                       onPressed: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberGen(emailController.text)));
                                       },
-                                      child: Text('Да', style: TextStyle(color: DarkThemeColors.primary00),)
+                                      child: const Text('Да', style: TextStyle(color: DarkThemeColors.primary00),)
                                   ),
                                   TextButton(
                                       onPressed: (){
                                         Navigator.pop(context);
                                       },
-                                      child: Text('Нет', style: TextStyle(color: DarkThemeColors.deactive),)
+                                      child: const Text('Нет', style: TextStyle(color: DarkThemeColors.deactive),)
                                   ),
                                 ],
                               );

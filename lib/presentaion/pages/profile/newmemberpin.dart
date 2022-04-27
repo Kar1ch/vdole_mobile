@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
+import 'package:vdole_mobile/presentaion/pages/profile/profile_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
 
 class NewMemberPin extends StatefulWidget{
@@ -67,21 +68,41 @@ class NewMemberPinState extends State{
                   ),
                   onPressed: () async {
                     try {
-                      var response = await newMemberPin(email, pinController.text);
+                      if (pinController.text == ''){
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('PIN код не введен'),
+                          backgroundColor: Colors.redAccent,
+                        ));
+                      }
+                      else{
+                        var response = await newMemberPin(email, pinController.text);
                         var responseXml = response[0].toString();
-                        var responseXmlText = responseXml[1].toString();
                         if (responseXml.contains('0')) {
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('Указан неверный PIN код!'),
                             backgroundColor: Colors.redAccent,));
                         }
                         else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(responseXmlText),
-                            backgroundColor: DarkThemeColors.primary00,));
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                                return AlertDialog(
+                                  backgroundColor: DarkThemeColors.tinkbg00,
+                                  content: const Text('Регистрация прошла успешно! Теперь вы можете войти, запросив новый PIN код для авторизации.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: (){
+                                          Navigator.popUntil(context, (route) => false);
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                                        },
+                                        child: const Text('Ок', style: TextStyle(color: DarkThemeColors.primary00),)
+                                    )],
+                                );
+                              });
                         }
-                      } finally {}
-                    },
+                      }
+                    } finally {}
+                  },
                   child: const Text("Отправить", style: TextStyle(color: DarkThemeColors.white),),
                 ),
               ),
