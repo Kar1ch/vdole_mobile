@@ -5,7 +5,7 @@ import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:vdole_mobile/requests/requests.dart';
-import 'package:vdole_mobile/main.dart';
+import 'package:vdole_mobile/storage.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

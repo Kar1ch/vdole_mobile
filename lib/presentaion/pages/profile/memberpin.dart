@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
+import 'package:vdole_mobile/storage.dart';
 
 class MemberPin extends StatefulWidget{
 
