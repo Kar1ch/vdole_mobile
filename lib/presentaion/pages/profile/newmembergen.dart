@@ -26,7 +26,7 @@ class NewMemberGenState extends State{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Регистрация', textAlign: TextAlign.center, style: TextStyle(color: DarkThemeColors.white),),
+        title: const Text('Пользовательское соглашение', textAlign: TextAlign.center, style: TextStyle(color: DarkThemeColors.white),),
         centerTitle: true,
         backgroundColor: DarkThemeColors.primary00,
       ),
@@ -42,8 +42,9 @@ class NewMemberGenState extends State{
                     children: [
                       RichText(
                           text: TextSpan(
-                              style: const TextStyle(color: DarkThemeColors.deactive),
-                              children: [
+                              style: const TextStyle(color: DarkThemeColors.white),
+                              //text: 'Для создания аккаунта прочтите и подпишите',
+                              children:[
                                 TextSpan(
                                     text: 'Пользовательское соглашение',
                                     recognizer: TapGestureRecognizer()
@@ -73,7 +74,7 @@ class NewMemberGenState extends State{
                       var responseXmlText = response[1].toString();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(responseXmlText),
-                        backgroundColor: Colors.green,));
+                        backgroundColor: DarkThemeColors.primary00,));
                       Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(email)));
                     } finally {}
                   },

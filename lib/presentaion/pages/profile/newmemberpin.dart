@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/presentaion/pages/profile/profile_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
+import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 
 class NewMemberPin extends StatefulWidget{
   var email = '';
@@ -76,8 +77,9 @@ class NewMemberPinState extends State{
                       }
                       else{
                         var response = await newMemberPin(email, pinController.text);
+                        print(response);
                         var responseXml = response[0].toString();
-                        if (responseXml.contains('0')) {
+                        if (responseXml.contains('<error>')) {
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('Указан неверный PIN код!'),
                             backgroundColor: Colors.redAccent,));
@@ -88,12 +90,13 @@ class NewMemberPinState extends State{
                               builder: (BuildContext context){
                                 return AlertDialog(
                                   backgroundColor: DarkThemeColors.tinkbg00,
-                                  content: const Text('Регистрация прошла успешно! Теперь вы можете войти, запросив новый PIN код для авторизации.'),
+                                  content: const Text('Регистрация прошла успешно! Теперь вы можете войти, запросив новый PIN код для авторизации.', style: TextStyle(color: DarkThemeColors.white),),
                                   actions: [
                                     TextButton(
                                         onPressed: (){
                                           Navigator.popUntil(context, (route) => false);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                                          //Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                                         },
                                         child: const Text('Ок', style: TextStyle(color: DarkThemeColors.primary00),)
                                     )],

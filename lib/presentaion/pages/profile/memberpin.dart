@@ -75,13 +75,13 @@ class MemberPinState extends State{
                       try {
                         var response = await memberPin(email, pinController.text);
                         var responseXml = response[0].toString();
-                        if (responseXml == '0'){
+                        print(responseXml);
+                        var responseXmlText = response[1].toString();
+                        print(responseXmlText);
+                        if (responseXmlText.contains('0')){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный PIN код!'), backgroundColor: Colors.redAccent,));
                         }
                         else{
-                          /* Сохраняем данные для автолога*/
-                          var cookie = responseXml.substring(responseXml.indexOf('"') + 1, responseXml.indexOf('"', responseXml.indexOf('"') + 1));
-                          cookieStorage.setcookie(cookie);
                           Navigator.popUntil(context, (route) => false);
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
