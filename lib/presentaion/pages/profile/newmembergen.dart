@@ -3,24 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
 import 'package:vdole_mobile/requests/requests.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vdole_mobile/storage.dart';
 
 import 'newmemberpin.dart';
 
-class NewMemberGen extends StatefulWidget{
-  var email = '';
-  NewMemberGen(var Email, {Key? key}) : super(key: key){
-    email = Email;
-  }
-  @override
-  State<StatefulWidget> createState() => NewMemberGenState(email);
-}
+class NewMemberGen extends StatelessWidget{
 
-class NewMemberGenState extends State{
-  var email = '';
+  NewMemberGen({Key? key, required this.email, required this.model}) : super(key: key);
+
+  AppModel model;
+  String email = '';
   TextEditingController pinController = TextEditingController();
-  NewMemberGenState(var Email){
-    email = Email;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +41,7 @@ class NewMemberGenState extends State{
                                 TextSpan(
                                     text: 'Пользовательское соглашение',
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () { launch('https://drive.google.com'); }
+                                      ..onTap = () { launchUrl(Uri.dataFromString('https://drive.google.com')); }
                                 )
                               ]
                           )
@@ -75,7 +68,7 @@ class NewMemberGenState extends State{
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(responseXmlText),
                         backgroundColor: DarkThemeColors.primary00,));
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(email)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewMemberPin(email: email, model: model)));
                     } finally {}
                   },
                   child: const Text("Подписать", style: TextStyle(color: DarkThemeColors.white),),

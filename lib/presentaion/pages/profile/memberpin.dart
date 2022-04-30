@@ -4,24 +4,11 @@ import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
 import 'package:vdole_mobile/storage.dart';
 
-class MemberPin extends StatefulWidget{
-
+class MemberPin extends StatelessWidget{
+  MemberPin({Key? key, required this.model, required this.email}) : super(key: key);
+  final AppModel model;
   String email = '';
-  MemberPin(String Email, {Key? key}) : super(key: key){
-    email = Email;
-  }
-
-  @override
-  State<StatefulWidget> createState() => MemberPinState(email);
-}
-
-class MemberPinState extends State{
-  var email = '';
   TextEditingController pinController = TextEditingController();
-
-  MemberPinState(String Email){
-    email = Email;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +62,17 @@ class MemberPinState extends State{
                       try {
                         var response = await memberPin(email, pinController.text);
                         var responseXml = response[0].toString();
-                        print(responseXml);
                         var responseXmlText = response[1].toString();
-                        print(responseXmlText);
                         if (responseXmlText.contains('0')){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан неверный PIN код!'), backgroundColor: Colors.redAccent,));
                         }
                         else{
+                          String cookie = responseXml.substring(responseXml.indexOf('cookie') + 8, responseXml.indexOf('"', responseXml.indexOf('cookie') + 8));
+                          print(cookie);
+                          model.storage.setCookie(cookie);
+                          print(await model.storage.getCookie());
                           Navigator.popUntil(context, (route) => false);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(model: model)));
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
                         }
                       }

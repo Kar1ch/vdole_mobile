@@ -1,27 +1,20 @@
-import 'package:localstorage/localstorage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class CookieStorage {
-  final LocalStorage cookiestorage = LocalStorage('vdole_localstorage');
+class Storage{
+  static const _secureStorage = FlutterSecureStorage();
 
-  CookieStorage(){
-    cookiestorage.setItem('cookie', '');
-  }
-
-  void setcookie(var newcookie) {
-    cookiestorage.setItem('cookie', newcookie);
-  }
-
-  String getcookie(){
-    return cookiestorage.getItem('cookie');
-  }
-
-  void deletecookie() {
-    cookiestorage.setItem('cookie', '');
-  }
-
-  bool isauthorised(){
-    return cookiestorage.getItem('cookie') == '' ? false : true;
-  }
+  Future<String?> getCookie() => _secureStorage.read(key: 'cookie');
+  Future<void> setCookie(String value) => _secureStorage.write(key: 'cookie', value: value);
+  Future<void> delCookie() => _secureStorage.delete(key: 'cookie');
 }
 
-CookieStorage cookieStorage = CookieStorage();
+class AppModel{
+  final storage = Storage();
+  var _isauth = false;
+  bool get isAuth => _isauth;
+
+  Future<void> checkAuth() async{
+    final cookie = await storage.getCookie();
+    _isauth = cookie != null;
+  }
+}

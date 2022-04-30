@@ -63,3 +63,46 @@ Future<dynamic> newMemberPin(String logEmail, String logPin) async{
   var responseXmlText = XmlText.parseString(response.body);
   return [responseXml![0], responseXmlText![0]];
 }
+
+Future<dynamic> autoAuth(String cookie) async{
+  var response = await post(
+      link,
+      body: {
+        'mob' : mob,
+        'comm' : '3',
+        'cookie' : cookie,
+      }
+  );
+  var responseXml = XmlElement.parseString(response.body);
+  var responseXmlText = XmlText.parseString(response.body);
+  return [responseXml![0], responseXmlText![0]];
+}
+
+Future<dynamic> exitFromProfile() async{
+  var response = await post(
+      link,
+      body: {
+        'mob' : mob,
+        'comm' : '2',
+      }
+  );
+  var responseXml = XmlElement.parseString(response.body);
+  var responseXmlText = XmlText.parseString(response.body);
+  return [responseXml![0], responseXmlText![0]];
+}
+
+Future<dynamic> deleteProfile(Future<String?> cookie) async{
+  String? _cookie = await cookie;
+  var response = await post(
+      link,
+      body: {
+        'mob' : mob,
+        'comm' : '4',
+        'cookie' : _cookie.toString(),
+        'order' : '3',
+      }
+  );
+  var responseXml = XmlElement.parseString(response.body);
+  var responseXmlText = XmlText.parseString(response.body);
+  return [responseXml![0], responseXmlText![0]];
+}
