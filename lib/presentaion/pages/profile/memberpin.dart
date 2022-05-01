@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vdole_mobile/presentaion/colors.dart';
-import 'package:vdole_mobile/presentaion/pages/home_page.dart';
 import 'package:vdole_mobile/requests/requests.dart';
 import 'package:vdole_mobile/storage.dart';
 
@@ -23,7 +22,7 @@ class MemberPin extends StatelessWidget{
         child: ListView(
             physics: const ClampingScrollPhysics(),
             children: <Widget>[
-              // Поле ввода PIN кода
+              /// Поле ввода PIN кода
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: TextFormField(
@@ -46,7 +45,7 @@ class MemberPin extends StatelessWidget{
                   ),
                 ),
               ),
-              // Кнопка отправить
+              /// Кнопка отправить
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 //color: Colors.green,
@@ -68,11 +67,8 @@ class MemberPin extends StatelessWidget{
                         }
                         else{
                           String cookie = responseXml.substring(responseXml.indexOf('cookie') + 8, responseXml.indexOf('"', responseXml.indexOf('cookie') + 8));
-                          print(cookie);
                           model.storage.setCookie(cookie);
-                          print(await model.storage.getCookie());
-                          Navigator.popUntil(context, (route) => false);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(model: model)));
+                          Navigator.of(context).pushReplacementNamed('/');
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Указан верный PIN код!'), backgroundColor: DarkThemeColors.primary00,));
                         }
                       }

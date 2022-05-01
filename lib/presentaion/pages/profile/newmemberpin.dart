@@ -7,6 +7,7 @@ import 'package:vdole_mobile/storage.dart';
 class NewMemberPin extends StatelessWidget{
 
   NewMemberPin({Key? key, required this.email, required this.model}) : super(key: key);
+
   AppModel model;
   String email = '';
   TextEditingController pinController = TextEditingController();
@@ -24,7 +25,7 @@ class NewMemberPin extends StatelessWidget{
         child: ListView(
             physics: const ClampingScrollPhysics(),
             children: <Widget>[
-              // Поле ввода PIN кода
+              /// Поле ввода PIN кода
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: TextFormField(
@@ -47,7 +48,7 @@ class NewMemberPin extends StatelessWidget{
                   ),
                 ),
               ),
-              // Кнопка отправить
+              /// Кнопка отправить
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: ElevatedButton(
@@ -60,6 +61,7 @@ class NewMemberPin extends StatelessWidget{
                   ),
                   onPressed: () async {
                     try {
+                      /// Проверка введен ли пароль
                       if (pinController.text == ''){
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('PIN код не введен'),
@@ -67,8 +69,11 @@ class NewMemberPin extends StatelessWidget{
                         ));
                       }
                       else{
+                        /// Отправка запроса на подтверждение почты нового пользователя
+                        /// и последующий парсинг ответа с сервера
                         var response = await newMemberPin(email, pinController.text);
                         var responseXml = response[0].toString();
+                        /// Проверка на корректность PIN кода
                         if (responseXml.contains('0')) {
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('Указан неверный PIN код!'),
@@ -80,13 +85,15 @@ class NewMemberPin extends StatelessWidget{
                               builder: (BuildContext context){
                                 return AlertDialog(
                                   backgroundColor: DarkThemeColors.tinkbg00,
-                                  content: const Text('Регистрация прошла успешно! Теперь вы можете войти, запросив новый PIN код для авторизации.'),
+                                  content: const Text('Регистрация прошла успешно! Теперь вы можете войти, запросив новый PIN код для авторизации.',
+                                    style: TextStyle(
+                                        color: DarkThemeColors.white),
+                                  ),
                                   actions: [
                                     TextButton(
-                                        onPressed: (){
-                                          Navigator.popUntil(context, (route) => false);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(model: model)));
-                                        },
+                                        onPressed: () =>
+                                        /// Переход на следующую страницу без возможности возврата на предыдущую
+                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfilePage(model: model))),
                                         child: const Text('Ок', style: TextStyle(color: DarkThemeColors.primary00),)
                                     )],
                                 );

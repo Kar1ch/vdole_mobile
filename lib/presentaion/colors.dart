@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 abstract class DarkThemeColors {
-  // Primary actions, emphasizing navigation elements,
-  // backgrounds, text, etc.
   static const primary00 = Color(0xFF099990);
   static const primary01 = Colors.green;
   static const primary02 = Color(0xFF019D64);
   static const secondary = Color(0xFF027093);
 
 
-  // Backgrounds //Фоновые цвета
+  ///Фоновые цвета
   static const background00 = Colors.black;
   static const background01 = Color(0xFF16171B);//tink
   static const background02 = Color(0xFF181A20);
@@ -19,12 +17,12 @@ abstract class DarkThemeColors {
   static const background04 = Color(0xFF23272C);//tink
   static const background05 = Color(0xFF1F222A);
 
-  //Фоновые цвета тинькова
+  ///Фоновые цвета тинькова
   static const tinkbg00 = Color(0xFF16171B);//tink
   static const tinkbg01 = Color(0xFF23272C);//tink
 
 
-  // Colorful
+  /// Colorful
   static const colorful01 = Color(0xFFA06AF9);
   static const colorful02 = Color(0xFFFBA3FF);
   static const colorful03 = Color(0xFF8E96FF);
@@ -35,7 +33,7 @@ abstract class DarkThemeColors {
 
   static const white = Color(0xFFFFFFFF);
 
-  // States //Состояния
+  ///Состояния
   static const active = white;
   static const deactive = Color(0xFF5E6272);
   static const activeLightMode = Color(0xFF200745);

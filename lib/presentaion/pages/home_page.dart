@@ -6,8 +6,11 @@ import 'package:vdole_mobile/presentaion/pages/portfolio/portfolio.dart';
 import 'package:vdole_mobile/storage.dart';
 
 class HomePage extends StatefulWidget{
+
   const HomePage({Key? key, required this.model}) : super(key: key);
+
   final AppModel model;
+
   @override
   _HomePageState createState() => _HomePageState();//Единица указана до тех пор пока не прекратится отладка профиля
 
@@ -19,7 +22,9 @@ class _HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context){
+    /// Проверка на авто-авторизацию
     widget.model.checkAuth();
+    /// Список страниц, на которые можно перейти с помощью нижней навигационной панели
     final List<Widget> _tabItems = [const RatingPage(), const PortfolioPage(), ProfilePage(model: widget.model)];
     return Scaffold(
       body: _tabItems[_activePage],
